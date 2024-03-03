@@ -5,7 +5,7 @@
     "type": "library",
     "autoload": {
         "psr-4": {
-            "Martinhons\\Crontime\\": "src/"
+            "Crontime\\": "src/"
         }
     },
     "authors": [
