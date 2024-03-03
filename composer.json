@@ -1,6 +1,6 @@
 {
     "name": "martinhons/crontime",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "Knihovna usnadňující práci s crontime.",
     "type": "library",
     "autoload": {
