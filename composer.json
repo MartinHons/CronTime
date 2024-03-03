@@ -1,0 +1,19 @@
+{
+    "name": "martinhons/crontime",
+    "description": "Knihovna usnadňující práci s crontime.",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Martinhons\\Crontime\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Martin Hons",
+            "email": "hons46@gmail.com"
+        }
+    ],
+    "require": {
+		"php": "8.0 - 8.3"
+    }
+}
