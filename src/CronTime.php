@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace MartinHons\CronTime;
+namespace MartinHons;
 
 class CronTime
 {
