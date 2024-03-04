@@ -15,6 +15,12 @@ final class ValidateTest extends TestCase
         new CronTime('');
     }
 
+    public function testInvalidValuesInParameter(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new CronTime('* * A * *');
+    }
+
     public function testFewParameters(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -31,6 +37,7 @@ final class ValidateTest extends TestCase
     {
         $this->assertInstanceOf(CronTime::class, new CronTime('* * * * *'));
         $this->assertInstanceOf(CronTime::class, new CronTime('1 1 1 1 1'));
+        $this->assertInstanceOf(CronTime::class, new CronTime('1,2,3 4-6,7-10 */2 6/2 *'));
     }
 
     public function testOutOfRange(): void
@@ -38,7 +45,5 @@ final class ValidateTest extends TestCase
         $this->expectException(OutOfRangeException::class);
         new CronTime('70 * * * *');
     }
-
-
 
 }

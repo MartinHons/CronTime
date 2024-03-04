@@ -34,6 +34,7 @@ final class CronTime
     {
         $result = [];
         foreach($this->explodeCrontime($cronTime) as $type => $cronVal) {
+            $cronVal = $this->translateTextValues($cronVal, $type);
             $typeRange = $this->getTypeRange($type);
             $allowedValues = [];
 
@@ -59,10 +60,8 @@ final class CronTime
                     }
                     else {
                         if (str_contains($subExpr, '/')) {
-                            if (str_contains($subExpr, '-')) {
-                                // Krok */15 nebo krok s počátem 20/15 nebo krok s rozsahem 10-40/5
-                                array_push($allowedValues, ...$this->getStepValues($subExpr, $typeRange));
-                            }
+                            // Krok */15 nebo krok s počátem 20/15 nebo krok s rozsahem 10-40/5
+                            array_push($allowedValues, ...$this->getStepValues($subExpr, $typeRange));
                         }
                         elseif(str_contains($subExpr, '-')) {
                             // Rozsah dvou čísel 1-2
@@ -137,7 +136,7 @@ final class CronTime
             catch(Throwable) {
                 throw new InvalidArgumentException('Krok '.$stepString.' není platný');
             }
-            return array_filter($typeRange, fn($value) => $value >= $begin && $value <= $end && $value % $step === 0);
+            return array_filter($typeRange, fn($value) => ($value >= $begin) && ($value <= $end) && ($value % $step === 0));
         }
     }
 
@@ -155,11 +154,15 @@ final class CronTime
         return array_keys(array_fill($min, $max - $min + 1, null));
     }
 
+    private function translateTextValues(string $type, string $value): int
+    {
+
+    }
+
     private function explodeCronTime(string $cronTime): array
     {
         $cronValues = explode(' ', $cronTime);
         $valuesCount = count($cronValues);
-        echo $valuesCount;
         if ($valuesCount !== 5) {
             throw new InvalidArgumentException('CronTime must have exactly 5 values separated by spaces. This has '.$valuesCount.' values.');
         }
@@ -183,3 +186,7 @@ final class CronTime
         ];
     }
 }
+
+
+$cronTime = new CronTime('*/15 10 * * *');
+$cronTime->match(new DateTimeImmutable('2024-11-02 10:00'));
