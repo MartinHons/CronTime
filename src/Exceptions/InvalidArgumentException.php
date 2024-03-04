@@ -7,7 +7,7 @@ namespace MartinHons\Exceptions;
 use Exception;
 use Throwable;
 
-class InvalidException extends Exception
+class InvalidArgumentException extends Exception
 {
     public function __construct(string $message, int $code = 0, Throwable $previous = null)
     {

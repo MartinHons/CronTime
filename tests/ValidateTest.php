@@ -3,36 +3,42 @@
 declare(strict_types=1);
 
 use MartinHons\CronTime;
-use MartinHons\Exceptions\InvalidException;
+use MartinHons\Exceptions\InvalidArgumentException;
+use MartinHons\Exceptions\OutOfRangeException;
 use PHPUnit\Framework\TestCase;
 
 final class ValidateTest extends TestCase
 {
-    public function testEmpty(): void
+    public function testEmptyCronTime(): void
     {
-        $this->expectException(InvalidException::class);
+        $this->expectException(InvalidArgumentException::class);
         new CronTime('');
     }
 
     public function testFewParameters(): void
     {
-        $this->expectException(InvalidException::class);
+        $this->expectException(InvalidArgumentException::class);
         new CronTime('* * *');
     }
 
     public function testTooManyParameters(): void
     {
-        $this->expectException(InvalidException::class);
+        $this->expectException(InvalidArgumentException::class);
         new CronTime('* * * * * *');
     }
 
     public function testCorrectParametersCount(): void
     {
         $this->assertInstanceOf(CronTime::class, new CronTime('* * * * *'));
+        $this->assertInstanceOf(CronTime::class, new CronTime('1 1 1 1 1'));
     }
 
-    public function testOnlyNumbers(): void
+    public function testOutOfRange(): void
     {
-        $this->assertInstanceOf(CronTime::class, new CronTime('10 10 10 10 5'));
+        $this->expectException(OutOfRangeException::class);
+        new CronTime('70 * * * *');
     }
+
+
+
 }
